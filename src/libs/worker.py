@@ -9,7 +9,8 @@ def monitor_servers(data):
 
     # empty players list
     for x in data:
-        PLAYER_LIST[x['address']] = []
+        if not PLAYER_LIST.has_key(x['address']):
+            PLAYER_LIST[x['address']] = []
 
     print PLAYER_LIST
 

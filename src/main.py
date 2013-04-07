@@ -123,6 +123,7 @@ class MainWindow(QtGui.QMainWindow):
         notifications = monitor_servers(self.data)
         for x in notifications:
             self.icon.showMessage('ALERT', x)
+            #pass
 
         self.timer = threading.Timer(10, self.handle_timed_loop)
         self.timer.start()
