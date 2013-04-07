@@ -70,7 +70,15 @@ class MainWindow(QtGui.QMainWindow):
         self.hide()
 
     def handle_del_events(self):
-        print self.sender()
+        try:
+            item = self.ui.serverList.selectedIndexes()[0]
+            index = item.row()
+            del self.data[index]
+        except:
+            pass
+
+        self.update_list()
+        self.refresh_list()
 
     def handle_toggle_events(self):
         print self.sender()
