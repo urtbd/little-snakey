@@ -4,6 +4,7 @@ from PySide import QtGui
 
 from libs.main_window import Ui_MainWindow
 from libs.server_form import Ui_Form
+from libs.io import save_data, read_data
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -17,6 +18,24 @@ class MainWindow(QtGui.QMainWindow):
         self.server_form = ServerForm()
         self.server_form.set_main_window(self)
         self.server_form.hide()
+
+        # Refresh list
+        self.refresh_list()
+
+        # Initiate empty list
+        self.data = []
+
+    def update_list(self):
+        save_data(self.data)
+
+    def refresh_list(self):
+        # List Data
+        self.data = read_data()
+
+        self.ui.serverList.clear()
+        for x in self.data:
+            #print x
+            self.ui.serverList.addItem(x['name'])
 
 
     def connect_handlers(self):
@@ -82,7 +101,16 @@ class ServerForm(QtGui.QWidget):
 
 
     def handle_ok_events(self):
-        print self.ui.serverAddress.text()
+        server_addr = self.ui.serverAddress.text()
+        server_name = self.ui.serverName.text()
+        server = {'name': server_name, 'address': server_addr}
+        self.main_window.data.append(server)
+        self.main_window.update_list()
+        self.main_window.refresh_list()
+
+        self.main_window.show()
+        self.hide()
+
 
     def handle_cancel_events(self):
         self.main_window.show()
