@@ -1,10 +1,12 @@
 import sys
+import threading
 
 from PySide import QtGui
 
 from libs.main_window import Ui_MainWindow
 from libs.server_form import Ui_Form
 from libs.io import save_data, read_data
+from libs.worker import monitor_servers
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -91,10 +93,24 @@ class MainWindow(QtGui.QMainWindow):
         self.refresh_list()
 
     def handle_toggle_events(self):
-        print self.sender()
+        try:
+            timer = self.timer
+            self.timer.cancel()
+            del self.timer
+            self.ui.toggleButton.setText("START")
+        except:
+            self.ui.toggleButton.setText("STOP")
+            self.handle_timed_loop()
+
 
     def handle_quit_events(self):
+        self.timer.cancel()
         self.close()
+
+    def handle_timed_loop(self):
+        monitor_servers(self.data)
+        self.timer = threading.Timer(2, self.handle_timed_loop)
+        self.timer.start()
 
 
 class ServerForm(QtGui.QWidget):
