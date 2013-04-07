@@ -1,6 +1,7 @@
 from main_window import Ui_MainWindow
 from PySide import QtGui
 import sys
+from server_form import Ui_Form
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -9,6 +10,10 @@ class MainWindow(QtGui.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.connect_handlers()
+
+        # Sub Views
+        self.server_form = ServerForm()
+        self.server_form.hide()
 
 
     def connect_handlers(self):
@@ -33,13 +38,13 @@ class MainWindow(QtGui.QMainWindow):
         user_interface.actionQuit.triggered.connect(self.handle_quit_events)
 
 
-
-
     def handle_add_events(self):
-        print self.sender()
+        self.server_form.show()
+        self.hide()
 
     def handle_edit_events(self):
-        print self.sender()
+        self.server_form.show()
+        self.hide()
 
     def handle_del_events(self):
         print self.sender()
@@ -48,10 +53,18 @@ class MainWindow(QtGui.QMainWindow):
         print self.sender()
 
     def handle_quit_events(self):
-        print self.sender()
+        self.close()
 
 
+class ServerForm(QtGui.QWidget):
+    def __init__(self, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        self.ui = Ui_Form()
+        self.ui.setupUi(self)
+        self.connect_handlers()
 
+    def connect_handlers(self):
+        pass
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
