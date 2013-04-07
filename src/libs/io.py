@@ -18,6 +18,7 @@ def read_data():
             fh = open(JSON_PATH)
             content = fh.read()
             fh.close()
+            #print content
             return json.loads(content)
         except:
             return []

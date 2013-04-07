@@ -19,11 +19,11 @@ class MainWindow(QtGui.QMainWindow):
         self.server_form.set_main_window(self)
         self.server_form.hide()
 
-        # Refresh list
-        self.refresh_list()
-
         # Initiate empty list
         self.data = []
+
+        # Refresh list
+        self.refresh_list()
 
     def update_list(self):
         save_data(self.data)
