@@ -1,7 +1,9 @@
-from main_window import Ui_MainWindow
-from PySide import QtGui
 import sys
-from server_form import Ui_Form
+
+from PySide import QtGui
+
+from libs.main_window import Ui_MainWindow
+from libs.server_form import Ui_Form
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -44,6 +46,7 @@ class MainWindow(QtGui.QMainWindow):
         self.hide()
 
     def handle_edit_events(self):
+        #self.server_form.set_entry_id(2)
         self.server_form.show()
         self.hide()
 
