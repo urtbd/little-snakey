@@ -8,6 +8,49 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self, parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.connect_handlers()
+
+
+    def connect_handlers(self):
+        user_interface = self.ui
+
+        #Bind Add Events
+        user_interface.addButton.clicked.connect(self.handle_add_events)
+        user_interface.actionAdd_Server.triggered.connect(self.handle_add_events)
+
+        #Bind Edit Events
+        user_interface.editButton.clicked.connect(self.handle_edit_events)
+
+        #Bind Del Events
+        user_interface.delButton.clicked.connect(self.handle_del_events)
+
+        #Bind Toggle Events
+        user_interface.toggleButton.clicked.connect(self.handle_toggle_events)
+        user_interface.actionStart_Monitoring.triggered.connect(self.handle_toggle_events)
+        user_interface.actionStop_Monitoring.triggered.connect(self.handle_toggle_events)
+
+        #Bind Quit Events
+        user_interface.actionQuit.triggered.connect(self.handle_quit_events)
+
+
+
+
+    def handle_add_events(self):
+        print self.sender()
+
+    def handle_edit_events(self):
+        print self.sender()
+
+    def handle_del_events(self):
+        print self.sender()
+
+    def handle_toggle_events(self):
+        print self.sender()
+
+    def handle_quit_events(self):
+        print self.sender()
+
+
 
 
 if __name__ == "__main__":
