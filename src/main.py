@@ -13,6 +13,7 @@ class MainWindow(QtGui.QMainWindow):
 
         # Sub Views
         self.server_form = ServerForm()
+        self.server_form.set_main_window(self)
         self.server_form.hide()
 
 
@@ -63,8 +64,27 @@ class ServerForm(QtGui.QWidget):
         self.ui.setupUi(self)
         self.connect_handlers()
 
+        self.main_window = None
+        self.entry_id = None
+
+    def set_main_window(self, main_win):
+        self.main_window = main_win
+
+    def set_entry_id(self, id):
+        self.entry_id = id
+
     def connect_handlers(self):
-        pass
+        self.ui.okButton.clicked.connect(self.handle_ok_events)
+        self.ui.cancelButton.clicked.connect(self.handle_cancel_events)
+
+
+    def handle_ok_events(self):
+        print self.ui.serverAddress.text()
+
+    def handle_cancel_events(self):
+        self.main_window.show()
+        self.hide()
+
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
