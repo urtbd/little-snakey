@@ -124,7 +124,7 @@ class MainWindow(QtGui.QMainWindow):
         for x in notifications:
             self.icon.showMessage('ALERT', x)
 
-        self.timer = threading.Timer(2, self.handle_timed_loop)
+        self.timer = threading.Timer(10, self.handle_timed_loop)
         self.timer.start()
 
 

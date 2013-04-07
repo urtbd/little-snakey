@@ -11,6 +11,7 @@ def get_server_details(host, port):
     # Get response from server
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.settimeout(1)
         sock.connect((host, int(port)))
         sock.send(MESSAGE)
         response, addr = sock.recvfrom(1024)
@@ -19,7 +20,7 @@ def get_server_details(host, port):
     except Exception, exc:
         print "The connection to the server failed. Did you provide the correct hostname and port?"
         print "Error message for the Geeks: " + str(exc)
-        sys.exit(2)
+        return {'configs': {}, 'players': {}}
 
     # Retrieve the server settings
     config_string_parts = response_lines[1].split("\\")
