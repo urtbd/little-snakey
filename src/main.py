@@ -65,7 +65,17 @@ class MainWindow(QtGui.QMainWindow):
         self.hide()
 
     def handle_edit_events(self):
-        #self.server_form.set_entry_id(2)
+        try:
+            item = self.ui.serverList.selectedIndexes()[0]
+            index = item.row()
+        except:
+            index = None
+
+        if index is not None:
+            self.server_form.set_entry_id(index)
+        else:
+            self.server_form.set_default_texts()
+
         self.server_form.show()
         self.hide()
 
@@ -102,6 +112,11 @@ class ServerForm(QtGui.QWidget):
 
     def set_entry_id(self, id):
         self.entry_id = id
+        entry = self.main_window.data[id]
+
+        self.ui.serverAddress.setText(entry['address'])
+        self.ui.serverName.setText(entry['name'])
+
 
     def connect_handlers(self):
         self.ui.okButton.clicked.connect(self.handle_ok_events)
@@ -112,17 +127,29 @@ class ServerForm(QtGui.QWidget):
         server_addr = self.ui.serverAddress.text()
         server_name = self.ui.serverName.text()
         server = {'name': server_name, 'address': server_addr}
-        self.main_window.data.append(server)
+
+        if self.entry_id is None:
+            self.main_window.data.append(server)
+        else:
+            self.main_window.data[self.entry_id] = server
+
         self.main_window.update_list()
         self.main_window.refresh_list()
 
         self.main_window.show()
         self.hide()
 
+        self.set_default_texts()
 
     def handle_cancel_events(self):
         self.main_window.show()
         self.hide()
+
+        self.set_default_texts()
+
+    def set_default_texts(self):
+        self.ui.serverAddress.setText('example.com:27960')
+        self.ui.serverName.setText('Server Name')
 
 
 if __name__ == "__main__":
