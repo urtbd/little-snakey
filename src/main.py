@@ -27,6 +27,10 @@ class MainWindow(QtGui.QMainWindow):
         # Refresh list
         self.refresh_list()
 
+        # System Tray icon
+        self.icon = QtGui.QSystemTrayIcon()
+        self.icon.show()
+
     def update_list(self):
         save_data(self.data)
 
@@ -98,9 +102,17 @@ class MainWindow(QtGui.QMainWindow):
             self.timer.cancel()
             del self.timer
             self.ui.toggleButton.setText("START")
+            self.ui.actionStop_Monitoring.setDisabled(True)
+            self.ui.actionStart_Monitoring.setEnabled(True)
+
+            self.icon.showMessage('STOP', "Server monitoring was stopped!")
         except:
+            self.ui.actionStop_Monitoring.setEnabled(True)
+            self.ui.actionStart_Monitoring.setDisabled(True)
             self.ui.toggleButton.setText("STOP")
             self.handle_timed_loop()
+
+            self.icon.showMessage('START', "Server monitoring has started!")
 
 
     def handle_quit_events(self):
@@ -108,7 +120,10 @@ class MainWindow(QtGui.QMainWindow):
         self.close()
 
     def handle_timed_loop(self):
-        monitor_servers(self.data)
+        notifications = monitor_servers(self.data)
+        for x in notifications:
+            self.icon.showMessage('ALERT', x)
+
         self.timer = threading.Timer(2, self.handle_timed_loop)
         self.timer.start()
 
