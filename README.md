@@ -44,7 +44,7 @@ The application should run!
 (1) Python comes built in. 
 (2) Install Pyside:
     
-    $ sudo apt-get install pyside
+    $ sudo apt-get install python-pyside
 (3) Run:
    
     $ ./run
