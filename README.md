@@ -28,7 +28,12 @@ The application was built on top of PySide and Python. We're working on building
 
     $ brew install pyside
     
-(3) Now you can just run: 
+(3) Please make sure that the brew installed Python is in your system PATH. Add something like these to your bash/zsh profile: 
+      
+    #Homebrew Python
+    export PATH=/usr/local/share/python:$PATH
+    
+(4) Now you can just run: 
 
     $ ./run
     
