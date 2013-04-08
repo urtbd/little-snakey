@@ -60,7 +60,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "UrT PyMonitor", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Little Snakey", None, QtGui.QApplication.UnicodeUTF8))
         self.addButton.setText(QtGui.QApplication.translate("MainWindow", "ADD", None, QtGui.QApplication.UnicodeUTF8))
         self.delButton.setText(QtGui.QApplication.translate("MainWindow", "DEL", None, QtGui.QApplication.UnicodeUTF8))
         self.toggleButton.setText(QtGui.QApplication.translate("MainWindow", "START", None, QtGui.QApplication.UnicodeUTF8))

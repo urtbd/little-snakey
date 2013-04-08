@@ -184,6 +184,7 @@ class ServerForm(QtGui.QWidget):
         self.hide()
 
         self.set_default_texts()
+        self.entry_id = None
 
     def handle_cancel_events(self):
         self.main_window.show()
