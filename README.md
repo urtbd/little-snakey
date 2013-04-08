@@ -52,5 +52,5 @@ The application should run!
     
 ### Issues? Bug Reports? 
 
-Rport them here - <a href="https://github.com/urtbd/little-snakey/issues">https://github.com/urtbd/little-snakey/issues</a> 
+Report them here - <a href="https://github.com/urtbd/little-snakey/issues">https://github.com/urtbd/little-snakey/issues</a> 
 
