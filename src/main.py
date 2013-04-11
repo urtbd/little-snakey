@@ -2,6 +2,7 @@ import sys
 import threading
 
 from PySide import QtGui
+from PySide import QtCore
 
 from libs.main_window import Ui_MainWindow
 from libs.server_form import Ui_Form
@@ -23,6 +24,7 @@ class MainWindow(QtGui.QMainWindow):
 
         # Initiate empty list
         self.data = []
+        self.notifications = []
 
         # Refresh list
         self.refresh_list()
@@ -65,6 +67,9 @@ class MainWindow(QtGui.QMainWindow):
 
         #Bind Quit Events
         user_interface.actionQuit.triggered.connect(self.handle_quit_events)
+
+        # Bind Signals
+        self.connect(self, QtCore.SIGNAL('notify()'), self.push_notifications)
 
 
     def handle_add_events(self):
@@ -121,13 +126,16 @@ class MainWindow(QtGui.QMainWindow):
         self.close()
 
     def handle_timed_loop(self):
-        notifications = monitor_servers(self.data)
-        for x in notifications:
-            self.icon.showMessage('ALERT', x, self.msgIcon)
-            #pass
-
+        self.notifications = monitor_servers(self.data)
         self.timer = threading.Timer(10, self.handle_timed_loop)
         self.timer.start()
+        self.emit(QtCore.SIGNAL('notify()'))
+
+    def push_notifications(self):
+        #print "ok- called"
+        for x in self.notifications:
+            self.icon.showMessage('ALERT', x, self.msgIcon)
+            #pass
 
 
     def closeEvent(self, event):
