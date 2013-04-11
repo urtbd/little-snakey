@@ -10,6 +10,9 @@ from libs.server_form import Ui_Form
 from libs.io import save_data, read_data
 from libs.worker import monitor_servers
 
+# Config
+JSON_PATH = os.path.join(os.path.dirname(__file__), "data.json")
+
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self, parent=None):
@@ -31,7 +34,7 @@ class MainWindow(QtGui.QMainWindow):
         self.refresh_list()
 
         # Set icons
-        icon = QtGui.QIcon(os.path.join(os.path.dirname(__file__), "icon.ico"))
+        icon = QtGui.QIcon(os.path.join(os.path.dirname(__file__), "icon.png"))
         self.setWindowIcon(icon)
 
         self.msgIcon = QtGui.QSystemTrayIcon.MessageIcon(QtGui.QSystemTrayIcon.Information)
@@ -46,11 +49,11 @@ class MainWindow(QtGui.QMainWindow):
             self.show()
 
     def update_list(self):
-        save_data(self.data)
+        save_data(self.data, JSON_PATH)
 
     def refresh_list(self):
         # List Data
-        self.data = read_data()
+        self.data = read_data(JSON_PATH)
 
         self.ui.serverList.clear()
         for x in self.data:

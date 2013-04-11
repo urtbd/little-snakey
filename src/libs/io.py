@@ -1,21 +1,19 @@
 import os
 import json
 
-JSON_PATH = os.path.join(os.path.dirname(__file__), "data.json")
 
-
-def save_data(data):
-    fh = open(JSON_PATH, "w")
+def save_data(data, path):
+    fh = open(path, "w")
     json_data = json.dumps(data)
     fh.write(json_data)
     fh.close()
     #print data
 
 
-def read_data():
-    if os.path.exists(JSON_PATH):
+def read_data(path):
+    if os.path.exists(path):
         try:
-            fh = open(JSON_PATH)
+            fh = open(path)
             content = fh.read()
             fh.close()
             #print content
