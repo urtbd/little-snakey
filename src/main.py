@@ -29,10 +29,20 @@ class MainWindow(QtGui.QMainWindow):
         # Refresh list
         self.refresh_list()
 
-        # System Tray icon
+        # Set icons
+        icon = QtGui.QIcon('icon.ico')
+        self.setWindowIcon(icon)
+
         self.msgIcon = QtGui.QSystemTrayIcon.MessageIcon(QtGui.QSystemTrayIcon.NoIcon)
-        self.icon = QtGui.QSystemTrayIcon()
-        self.icon.show()
+        self.systray_icon = QtGui.QSystemTrayIcon(icon)
+        self.systray_icon.activated.connect(self.toggle_window)
+        self.systray_icon.show()
+
+    def toggle_window(self):
+        if self.isVisible():
+            self.hide()
+        else:
+            self.show()
 
     def update_list(self):
         save_data(self.data)
@@ -111,14 +121,14 @@ class MainWindow(QtGui.QMainWindow):
             self.ui.actionStop_Monitoring.setDisabled(True)
             self.ui.actionStart_Monitoring.setEnabled(True)
 
-            self.icon.showMessage('STOP', "Server monitoring was stopped!", self.msgIcon)
+            self.systray_icon.showMessage('STOP', "Server monitoring was stopped!", self.msgIcon)
         except:
             self.ui.actionStop_Monitoring.setEnabled(True)
             self.ui.actionStart_Monitoring.setDisabled(True)
             self.ui.toggleButton.setText("STOP")
             self.handle_timed_loop()
 
-            self.icon.showMessage('START', "Server monitoring has started!", self.msgIcon)
+            self.systray_icon.showMessage('START', "Server monitoring has started!", self.msgIcon)
 
 
     def handle_quit_events(self):
@@ -134,7 +144,7 @@ class MainWindow(QtGui.QMainWindow):
     def push_notifications(self):
         #print "ok- called"
         for x in self.notifications:
-            self.icon.showMessage('ALERT', x, self.msgIcon)
+            self.systray_icon.showMessage('ALERT', x, self.msgIcon)
             #pass
 
 
