@@ -1,5 +1,6 @@
 import sys
 import threading
+import os
 
 from PySide import QtGui
 from PySide import QtCore
@@ -30,10 +31,10 @@ class MainWindow(QtGui.QMainWindow):
         self.refresh_list()
 
         # Set icons
-        icon = QtGui.QIcon('icon.ico')
+        icon = QtGui.QIcon(os.path.join(os.path.dirname(__file__), "icon.ico"))
         self.setWindowIcon(icon)
 
-        self.msgIcon = QtGui.QSystemTrayIcon.MessageIcon(QtGui.QSystemTrayIcon.NoIcon)
+        self.msgIcon = QtGui.QSystemTrayIcon.MessageIcon(QtGui.QSystemTrayIcon.Information)
         self.systray_icon = QtGui.QSystemTrayIcon(icon)
         self.systray_icon.activated.connect(self.toggle_window)
         self.systray_icon.show()

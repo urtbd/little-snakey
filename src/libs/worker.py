@@ -12,7 +12,7 @@ def monitor_servers(data):
         if not PLAYER_LIST.has_key(x['address']):
             PLAYER_LIST[x['address']] = []
 
-    print PLAYER_LIST
+    #print PLAYER_LIST #### TODO: Debug
 
     for x in data:
         server_data = x['address'].split(':')
