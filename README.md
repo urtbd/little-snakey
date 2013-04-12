@@ -3,10 +3,9 @@
 ### The Cross OS Urban Terror Server Monitor
 
 
+##### Manual Installation
 
-##### Installation
-
-The application was built on top of PySide and Python. We're working on building stand alone binaries but until we release those, you have to install the dependencies manually to use it. Don't be scared, it's quite easy in fact!
+The latest version of the software might not be available as stand alone binary for your operating system yet. In that case we recommend that you install it manually. The application was built on top of PySide and Python so you have to install them manually to use the software. Don't be scared, it's quite easy in fact!
 
 
 ##### Windows 
@@ -53,6 +52,11 @@ The application should run!
 (3) Run:
    
     $ ./run
+    
+    
+###### Other Distros - 
+
+You can find PySide installation guides for all major Linux Distros here - <a href="http://qt-project.org/wiki/PySide_Binaries_Linux">http://qt-project.org/wiki/PySide_Binaries_Linux</a>
     
     
 ### Issues? Bug Reports? 
