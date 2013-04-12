@@ -2,6 +2,10 @@
 
 ### The Cross OS Urban Terror Server Monitor
 
+##### Stand Alone Binaries
+
+OS X - <a href="https://copy.com/P3Z4WfuJ3SRnW1iU">https://copy.com/P3Z4WfuJ3SRnW1iU</a>
+
 
 ##### Manual Installation
 
