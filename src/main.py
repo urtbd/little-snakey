@@ -2,21 +2,25 @@ import sys
 import threading
 import os
 
-from PySide import QtGui
-from PySide import QtCore
+from PyQt5 import QtGui
 
-from libs.main_window import Ui_MainWindow
-from libs.server_form import Ui_Form
+from PyQt5.QtWidgets import QMainWindow, QApplication, QSystemTrayIcon, QWidget
+
+from ui.MainWindow import Ui_MainWindow
+from ui.server import Ui_Form
+
 from libs.io import save_data, read_data
 from libs.worker import monitor_servers
+from libs.notification import Notifier
 
 # Config
 JSON_PATH = os.path.join(os.path.dirname(__file__), "data.json")
+NOTIFIER = Notifier()
 
 
-class MainWindow(QtGui.QMainWindow):
+class MainWindow(QMainWindow):
     def __init__(self, parent=None):
-        QtGui.QMainWindow.__init__(self, parent)
+        QMainWindow.__init__(self, parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.connect_handlers()
@@ -37,8 +41,8 @@ class MainWindow(QtGui.QMainWindow):
         icon = QtGui.QIcon(os.path.join(os.path.dirname(__file__), "icon.png"))
         self.setWindowIcon(icon)
 
-        self.msgIcon = QtGui.QSystemTrayIcon.MessageIcon(QtGui.QSystemTrayIcon.Information)
-        self.systray_icon = QtGui.QSystemTrayIcon(icon)
+        self.msgIcon = QSystemTrayIcon.MessageIcon(QSystemTrayIcon.Information)
+        self.systray_icon = QSystemTrayIcon(icon)
         self.systray_icon.activated.connect(self.toggle_window)
         self.systray_icon.show()
 
@@ -57,34 +61,32 @@ class MainWindow(QtGui.QMainWindow):
 
         self.ui.serverList.clear()
         for x in self.data:
-            #print x
+            # print x
             self.ui.serverList.addItem(x['name'])
-
 
     def connect_handlers(self):
         user_interface = self.ui
 
-        #Bind Add Events
+        # Bind Add Events
         user_interface.addButton.clicked.connect(self.handle_add_events)
         user_interface.actionAdd_Server.triggered.connect(self.handle_add_events)
 
-        #Bind Edit Events
+        # Bind Edit Events
         user_interface.editButton.clicked.connect(self.handle_edit_events)
 
-        #Bind Del Events
+        # Bind Del Events
         user_interface.delButton.clicked.connect(self.handle_del_events)
 
-        #Bind Toggle Events
+        # Bind Toggle Events
         user_interface.toggleButton.clicked.connect(self.handle_toggle_events)
         user_interface.actionStart_Monitoring.triggered.connect(self.handle_toggle_events)
         user_interface.actionStop_Monitoring.triggered.connect(self.handle_toggle_events)
 
-        #Bind Quit Events
+        # Bind Quit Events
         user_interface.actionQuit.triggered.connect(self.handle_quit_events)
 
         # Bind Signals
-        self.connect(self, QtCore.SIGNAL('notify()'), self.push_notifications)
-
+        NOTIFIER.notify.connect(self.push_notifications)
 
     def handle_add_events(self):
         self.server_form.show()
@@ -134,7 +136,6 @@ class MainWindow(QtGui.QMainWindow):
 
             self.systray_icon.showMessage('START', "Server monitoring has started!", self.msgIcon)
 
-
     def handle_quit_events(self):
         self.timer.cancel()
         self.close()
@@ -143,14 +144,13 @@ class MainWindow(QtGui.QMainWindow):
         self.notifications = monitor_servers(self.data)
         self.timer = threading.Timer(10, self.handle_timed_loop)
         self.timer.start()
-        self.emit(QtCore.SIGNAL('notify()'))
+        NOTIFIER.notify.emit()
 
     def push_notifications(self):
-        #print "ok- called"
+        # print "ok- called"
         for x in self.notifications:
             self.systray_icon.showMessage('ALERT', x, self.msgIcon)
-            #pass
-
+            # pass
 
     def closeEvent(self, event):
         try:
@@ -163,9 +163,9 @@ class MainWindow(QtGui.QMainWindow):
         event.accept()
 
 
-class ServerForm(QtGui.QWidget):
+class ServerForm(QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QWidget.__init__(self, parent)
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.connect_handlers()
@@ -183,11 +183,9 @@ class ServerForm(QtGui.QWidget):
         self.ui.serverAddress.setText(entry['address'])
         self.ui.serverName.setText(entry['name'])
 
-
     def connect_handlers(self):
         self.ui.okButton.clicked.connect(self.handle_ok_events)
         self.ui.cancelButton.clicked.connect(self.handle_cancel_events)
-
 
     def handle_ok_events(self):
         server_addr = self.ui.serverAddress.text()
@@ -220,7 +218,7 @@ class ServerForm(QtGui.QWidget):
 
 
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     main_window = MainWindow()
     main_window.show()
     sys.exit(app.exec_())

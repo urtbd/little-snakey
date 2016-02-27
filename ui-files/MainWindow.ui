@@ -63,7 +63,7 @@
      <string>START</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="editButton">
     <property name="geometry">
      <rect>
       <x>210</x>

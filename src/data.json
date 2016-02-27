@@ -1,1 +1,10 @@
-[{"name": "UrTBD", "address": "urtbd.com:2222"}, {"name": "Test Server", "address": "66.150.188.154:27960"}]
+[
+  {
+    "name": "UrTBD",
+    "address": "pub.urtbd.com:27960"
+  },
+  {
+    "name": "Test Server",
+    "address": "5.135.165.34:27001"
+  }
+]
